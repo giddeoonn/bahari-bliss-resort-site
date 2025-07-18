@@ -11,6 +11,14 @@
   --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.08);
   --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.12);
   --shadow-strong: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+  /* Font Sizess */
+  --fs-900: clamp(2.5rem, 6vw, 4rem); /* Hero title */
+  --fs-800: clamp(2rem, 5vw, 3.25rem); /* Section titles */
+  --fs-700: clamp(1.5rem, 4vw, 2.5rem); /* Subheadings */
+  --fs-600: clamp(1.25rem, 3vw, 1.75rem); /* Card titles */
+  --fs-500: 1.125rem; /* Body text */
+  --fs-400: 1rem; /* Small text */
 }
 * {
   margin: 0;
@@ -22,6 +30,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
 }
 body {
   background-color: white;
@@ -29,29 +38,36 @@ body {
 }
 html,
 body {
+  height: auto;
   max-width: 100vw;
   overflow-x: hidden;
+}
+section {
+  padding: 2rem 0;
 }
 .container {
   max-width: 1290px;
   width: 100%;
   margin: auto;
+  padding: 1rem;
 }
 .section-title {
   background-color: var(--accent-color);
   color: var(--light-text);
   padding: 0.5rem 1rem;
   border-radius: 10px;
-  width: 20%;
+  width: fit-content;
+  display: inline-block;
   text-align: center;
+  font-size: var(--fs-500);
 }
 .section-label {
-  font-size: 3.2rem;
+  font-size: var(--fs-800);
   line-height: 1;
 }
-nav {
+.navbar {
   position: absolute;
-  top: 1rem;
+  top: 0;
   z-index: 99;
   display: flex;
   justify-content: space-between;
@@ -59,12 +75,32 @@ nav {
   text-align: center;
   padding: 0.5rem 2rem;
   width: 100%;
+  background-color: transparent;
+  transition: 0.2s ease;
 }
-nav .logo img {
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+.navbar.scrolled {
+  position: fixed;
+  background-color: var(--primary-color);
+  box-shadow: var(--shadow-medium);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.off-screen-menu {
+  display: none;
+}
+#mobile-nav {
+  display: none;
+}
+#desktop-nav .logo img {
   height: 5rem;
   width: auto;
 }
-nav ul {
+#desktop-nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,11 +109,17 @@ nav ul {
   font-size: 1.5rem;
   font-weight: 600;
 }
-nav a {
+#desktop-nav a {
   color: var(--light-text);
   transition: 0.3s ease;
 }
-nav a:hover {
+#desktop-nav a:hover {
+  color: var(--accent-color);
+}
+#desktop-nav.scrolled a {
+  color: var(--light-text);
+}
+#desktop-nav.scrolled a:hover {
   color: var(--accent-color);
 }
 /* ====== HERO SECTION ====== */
@@ -132,17 +174,17 @@ nav a:hover {
   line-height: 1.2;
 }
 #home .home-content strong {
-  font-size: 4rem;
+  font-size: var(--fs-900);
   color: var(--accent-color);
 }
 #home .home-content h1 {
-  font-size: 3rem;
+  font-size: var(--fs-800);
 }
 #home .home-content p {
-  font-size: 1.5rem;
+  font-size: var(--fs-600);
 }
 #home .home-content a {
-  font-size: 1rem;
+  font-size: var(--fs-500);
   margin-top: 30px;
   color: var(--accent-color);
   padding: 0.5rem 5rem;
@@ -162,7 +204,6 @@ nav a:hover {
   gap: 2rem;
   border-radius: 25px;
   background-color: white;
-  padding: 1rem;
   box-shadow: var(--shadow-soft);
   margin-top: -20px;
 }
@@ -182,12 +223,18 @@ nav a:hover {
   border-left: 1px solid rgba(0, 0, 0, 0.08);
 }
 .why-choose-us i {
-  font-size: 2rem;
+  font-size: var(--fs-800);
   color: var(--accent-color);
+}
+.why-choose-us h3 {
+  font-size: var(--fs-500);
+}
+.why-choose-us p {
+  font-size: var(--fs-400);
 }
 /* ====== ANOUT US SECTION ====== */
 #about {
-  margin-top: 100px;
+  /* margin-top: 100px;  */
   height: 100vh;
   max-height: 800px;
 }
@@ -228,16 +275,13 @@ nav a:hover {
   top: 200px;
   right: 15px;
   z-index: 3;
-  width: 38%;
+  width: 35%;
   box-shadow: var(--shadow-medium);
   background-color: var(--primary-color);
   color: var(--light-text);
   padding: 1rem;
   border-radius: 15px;
   line-height: 1.6;
-}
-#about .book-div p {
-  font-size: 0.8rem;
 }
 #about .book-div .book-icon {
   display: flex;
@@ -259,11 +303,11 @@ nav a:hover {
 #about .book-icon a {
   color: var(--light-text);
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: var(--fs-500);
 }
 #about .book-icon p {
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: var(--fs-400);
 }
 #about .about-right {
   display: flex;
@@ -271,14 +315,15 @@ nav a:hover {
   line-height: 1.6;
   gap: 1.5rem;
   padding-top: 2rem;
+  font-size: var(--fs-500);
 }
 /* ====== ABOUT US CARDS SECTION ====== */
 #about .about-us-grid {
-  margin-top: 10rem;
+  margin-top: 100px;
 }
 #about .about-us-grid .container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
 }
 #about .about-us-grid .about-card {
@@ -290,10 +335,10 @@ nav a:hover {
   padding: 2rem;
   background-color: var(--secondary-color);
   border-radius: 15px;
-  box-shadow: var(--shadow-medium);
+  box-shadow: var(--shadow-soft);
 }
 #about .about-us-grid .about-card i {
-  font-size: 3rem;
+  font-size: var(--fs-700);
   color: var(--primary-color);
 }
 #about .about-us-grid .about-card h3 {
@@ -301,6 +346,10 @@ nav a:hover {
   font-weight: 600;
   color: var(--accent-color);
   margin-bottom: 10px;
+  font-size: var(--fs-500);
+}
+#about .about-us-grid .about-card p {
+  font-size: var(--fs-400);
 }
 /* ====== AMENITIES SECTION ====== */
 #amenities {
@@ -312,10 +361,6 @@ nav a:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 2rem 0.5rem;
-}
-#amenities .section-title {
-  width: 12.5%;
 }
 #amenities .section-label {
   margin-top: 20px;
@@ -330,7 +375,6 @@ nav a:hover {
 #amenities .amenity-cards {
   padding: 2rem;
   border: 1px solid #cccccc28;
-  padding: 2rem;
 }
 #amenities .amenity-cards i {
   color: var(--accent-color);
@@ -339,13 +383,12 @@ nav a:hover {
   text-shadow: 2px 2px 2px var(--primary-color);
 }
 #amenities .amenity-cards p {
-  font-size: 1.5rem;
+  font-size: var(--fs-600);
   font-weight: 600;
 }
 /* ====== ROOMS SECTION ====== */
 #rooms {
   background-color: white;
-  padding: 4rem 1rem;
   text-align: center;
 }
 #rooms .rooms-top {
@@ -404,7 +447,7 @@ nav a:hover {
 }
 #rooms .room-card h3 {
   margin: 10px 0;
-  font-size: 1.2rem;
+  font-size: var(--fs-500);
   color: var(--accent-color);
   padding: 0 0.5rem;
 }
@@ -420,7 +463,6 @@ nav a:hover {
 /* ====== GALLERY SECTION ====== */
 #gallery {
   background-color: var(--secondary-color);
-  padding: 4rem 1rem;
   text-align: center;
 }
 #gallery .section-label {
@@ -442,7 +484,7 @@ nav a:hover {
 .gallery-grid {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(250px, 1fr);
+  grid-auto-columns: minmax(280px, 1fr);
   gap: 1.5rem;
 }
 .gallery-card {
@@ -456,7 +498,7 @@ nav a:hover {
   width: 100%;
   height: 250px;
   object-fit: cover;
-  object-position: 80%r;
+  object-position: 25%;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -465,11 +507,9 @@ nav a:hover {
 }
 /* === CONTACT US SECTION === */
 #contact {
-  padding: 2rem 0;
   max-height: 800px;
-  height: 100vh;
-  background-color: var(--primary-color);
-  color: var(--light-text);
+  height: auto;
+  background-color: white;
   line-height: 1.6;
 }
 #contact .section-label {
@@ -487,14 +527,21 @@ nav a:hover {
   justify-content: center;
   align-items: start;
   text-align: justify;
-  padding: 2rem 1rem;
 }
 #contact .contact_info,
 #contact .contact-form {
   width: 50%;
 }
+#contact .contact-form {
+  box-shadow: var(--shadow-strong);
+}
 #contact .contact_info {
+  color: var(--text-color);
   gap: 0;
+}
+#contact .section-label {
+  color: var(--primary-color);
+  text-shadow: 3px 2px 2px rgba(0, 0, 0, 0.448);
 }
 #contact .map-container {
   height: 200px;
@@ -509,6 +556,14 @@ nav a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: justify;
+  font-size: var(--fs-500);
+}
+#contact .location-info div i {
+  margin: 5px 0;
+  color: var(--accent-color);
+  font-size: var(--fs-600);
+  width: 30px;
 }
 .contact_info ul {
   display: flex;
@@ -516,11 +571,11 @@ nav a:hover {
   align-items: start;
   text-align: center;
   gap: 2rem;
-  font-size: 1.5rem;
+  font-size: var(--fs-600);
 }
 .contact_info ul i {
   padding: 0.5rem;
-  background-color: #4f8ef7;
+  background-color: var(--accent-color);
   border-radius: 50%;
   color: #f9fbfd;
 }
@@ -534,8 +589,8 @@ form {
   width: 90%;
   background-color: var(--accent-color);
   border-radius: 15px;
-  padding: 1rem 0rem;
-  overflow: hidden;
+  padding: 2rem 0rem;
+  margin: auto;
 }
 .contact-form input {
   height: 50px;
@@ -543,6 +598,7 @@ form {
   padding: 1rem;
   border: 1px solid #e3eaf5;
   border-radius: 5px;
+  font-size: var(--fs-500);
 }
 .contact-form #userMESSAGE {
   margin: 1rem 0;
@@ -552,6 +608,7 @@ form {
   resize: none;
   border: 1px solid #e3eaf5;
   border-radius: 5px;
+  font-size: var(--fs-500);
 }
 .contact-form button {
   height: 50px;
@@ -559,7 +616,8 @@ form {
   background-color: var(--primary-color);
   color: white;
   border: none;
-  transition: 0.3s ease-in-out;
+  border-radius: 5px;
+  cursor: pointer;
 }
 footer {
   background-color: var(--primary-color);
@@ -570,40 +628,13 @@ footer {
 }
 /* =============== MOBILE RESPONSIVENESS =================== */
 @media (max-width: 767px) {
-  #desktop-nav {
-    display: none;
-  }
   /* ====== HERO SECTION ====== */
   #home .container {
-    top: 36%;
+    top: 30%;
   }
   #home .home-content {
-    width: 90%;
+    width: 100%;
     gap: 0.5rem;
-  }
-  @media (max-width: 320px) {
-    #home .home-content {
-      width: 100%;
-    }
-  }
-  #home .home-content div {
-    gap: 0;
-  }
-  #home .home-content strong {
-    font-size: 2rem;
-    color: var(--accent-color);
-  }
-  #home .home-content h1 {
-    padding: 0 1rem;
-    font-size: 1.5rem;
-    line-height: 1;
-  }
-  #home .home-content p {
-    font-size: 1rem;
-    width: 90%;
-  }
-  #home .home-content a {
-    font-size: 0.8rem;
   }
   /* ====== HERO CARDS SECTION ====== */
   .why-choose-us {
@@ -613,13 +644,11 @@ footer {
   .why-choose-us .container {
     grid-template-columns: repeat(1, 1fr);
     gap: 2rem;
-    padding: 2rem 0.5rem;
     margin-top: -40px;
   }
   .why-choose-us .why-card {
     gap: 0.5rem;
     border: none;
-    font-size: 1rem;
     text-align: left;
   }
   .why-choose-us i {
@@ -629,13 +658,6 @@ footer {
   #about {
     height: auto;
     max-height: none;
-    padding: 0.5rem;
-    margin-top: 3rem;
-  }
-  @media (max-width: 320px) {
-    #about {
-      margin-top: 2rem;
-    }
   }
   #about .container {
     display: flex;
@@ -673,9 +695,6 @@ footer {
     text-align: center;
     padding: 0.5rem;
   }
-  #about .book-div p {
-    font-size: 0.8rem;
-  }
   #about .book-div .book-icon {
     display: flex;
     flex-direction: column;
@@ -693,31 +712,6 @@ footer {
   #about .book-icon a {
     color: var(--light-text);
     font-weight: 600;
-    font-size: 1rem;
-  }
-  #about .book-icon p {
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-  #about .about-right {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.6;
-    gap: 1rem;
-    padding: 1rem;
-    padding-top: 2rem;
-  }
-  #about .about-right strong {
-    background-color: var(--accent-color);
-    color: var(--light-text);
-    padding: 0.2rem 1rem;
-    border-radius: 10px;
-    width: 45%;
-    text-align: center;
-  }
-  #about .about-right h2 {
-    font-size: 2rem;
-    line-height: 1;
   }
   /* ====== ABOUT US CARDS SECTION ====== */
   #about .about-us-grid {
@@ -747,8 +741,6 @@ footer {
   /* ====== AMENITIES SECTION ====== */
   #amenities {
     font-size: 0.9rem;
-    padding: 0 1rem;
-    margin-top: 50px;
   }
   #amenities .container {
     display: flex;
@@ -756,14 +748,11 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 2rem 0;
   }
   #amenities .section-title {
-    font-size: 1rem;
     width: 50%;
   }
   #amenities .section-label {
-    font-size: 2rem;
     width: 100%;
   }
   @media (max-width: 320px) {
@@ -779,27 +768,13 @@ footer {
     width: 95%;
     margin: auto;
   }
-  #amenities .amenity-cards i {
-    font-size: 4rem;
-  }
-  #amenities .amenity-cards p {
-    font-size: 1rem;
-  }
   /* ====== ROOMS SECTION ====== */
-  #rooms {
-    margin-top: 50px;
-    padding: 0 1rem;
-    font-size: 0.9rem;
-  }
   #rooms .rooms-top {
     flex-wrap: wrap;
     gap: 1rem;
   }
   #rooms .rooms-left {
     width: 100%;
-  }
-  #rooms .section-label {
-    font-size: 2rem;
   }
   #rooms .room-card:hover {
     transform: translateY(-5px);
@@ -812,45 +787,17 @@ footer {
   }
   #rooms .room-card h3 {
     margin: 10px 0;
-    font-size: 1.2rem;
     color: var(--accent-color);
     padding: 0 0.5rem;
   }
   #rooms .room-card .room-desc {
     padding: 0 0.5rem;
   }
-  #rooms .room-card a {
-    background-color: var(--primary-color);
-    padding: 0.5rem 1rem;
-    color: var(--light-text);
-    border-radius: 5px;
-  }
-  /* ====== GALLERY SECTION ====== */
-  #gallery {
-    margin-top: 50px;
-    padding: 4rem 0.5rem;
-    font-size: 0.9rem;
-  }
-  #gallery .section-label {
-    font-size: 2rem;
-  }
-  #gallery p {
-    font-size: 1rem;
-    color: var(--text-color);
-    margin-bottom: 2rem;
-  }
   /* === CONTACT US SECTION === */
   #contact {
-    padding: 2rem 0;
     max-height: none;
     height: auto;
-    background-color: var(--primary-color);
-    color: var(--light-text);
     line-height: 1.6;
-  }
-  #contact .section-label {
-    margin-top: 20px;
-    font-size: 2rem;
   }
   #contact .contact-desc {
     width: 100%;
@@ -921,7 +868,7 @@ footer {
   }
   footer {
     background-color: var(--primary-color);
-    padding: 0.5rem 2rem;
+    padding: 0rem 0.5rem;
     text-align: center;
     border-top: 1px solid var(--secondary-color);
     color: var(--secondary-color);
@@ -935,36 +882,11 @@ footer {
   }
   /* ====== HOME SECTION ====== */
   #home .container {
-    top: 40%;
+    top: 35%;
   }
   #home .home-content {
     width: 90%;
     gap: 0.5rem;
-  }
-  @media (max-width: 320px) {
-    #home .home-content {
-      width: 100%;
-    }
-  }
-  #home .home-content div {
-    gap: 0;
-  }
-  #home .home-content strong {
-    font-size: 3rem;
-    color: var(--accent-color);
-  }
-  #home .home-content h1 {
-    padding: 0.5rem;
-    font-size: 2rem;
-    line-height: 1;
-  }
-  #home .home-content p {
-    font-size: 1.2rem;
-    width: 100%;
-  }
-  #home .home-content a {
-    margin-top: 20px;
-    font-size: 1rem;
   }
   /* ====== HERO CARDS SECTION ====== */
   .why-choose-us {
@@ -976,7 +898,6 @@ footer {
     gap: 0.5rem;
   }
   .why-choose-us .why-card {
-    font-size: 1rem;
     text-align: left;
     padding: 1rem;
   }
@@ -984,8 +905,6 @@ footer {
   #about {
     height: auto;
     max-height: none;
-    padding: 0.5rem;
-    margin-top: 3rem;
   }
   #about .container {
     display: flex;
@@ -1014,31 +933,11 @@ footer {
     width: 28%;
     padding: 1rem;
   }
-  #about .book-div p {
-    font-size: 0.8rem;
-  }
-  #about .book-icon i {
-    padding: 1rem;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    border: 1px solid var(--bg-color);
-  }
-  #about .book-icon a {
-    color: var(--light-text);
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  #about .book-icon p {
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
   #about .about-right {
     display: flex;
     flex-direction: column;
     line-height: 1.6;
     gap: 1rem;
-    padding: 1rem;
-    padding-top: 2rem;
   }
   #about .about-right strong {
     background-color: var(--accent-color);
@@ -1046,10 +945,6 @@ footer {
     padding: 0.2rem 1rem;
     border-radius: 10px;
     text-align: center;
-  }
-  #about .about-right h2 {
-    font-size: 2rem;
-    line-height: 1;
   }
   /* ====== ABOUT US CARDS SECTION ====== */
   #about .about-us-grid {
@@ -1078,58 +973,23 @@ footer {
     font-size: 2.5rem;
   }
   /* ====== AMENITIES SECTION ====== */
-  #amenities {
-    margin-top: 50px;
-    padding: 0 1rem;
-  }
   #amenities .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 2rem 0;
-  }
-  #amenities .section-title {
-    font-size: 1rem;
-    width: auto;
   }
   #amenities .section-label {
-    font-size: 2rem;
     margin-top: 20px;
     width: 100%;
-  }
-  @media (max-width: 320px) {
-    #amenities .section-title {
-      font-size: 1rem;
-      width: auto;
-    }
   }
   #amenities .amenities-grid {
     margin-top: 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
-  #amenities .amenity-cards {
-    padding: 2rem;
-    border: 1px solid #cccccc28;
-  }
-  #amenities .amenity-cards i {
-    color: var(--accent-color);
-    font-size: 4rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 2px var(--primary-color);
-  }
-  #amenities .amenity-cards p {
-    font-size: 1rem;
-    font-weight: 600;
-  }
   /* ====== ROOMS SECTION ====== */
-  #rooms {
-    margin-top: 50px;
-    padding: 0 1rem;
-    font-size: 0.9rem;
-  }
   #rooms .rooms-top {
     flex-wrap: wrap;
     gap: 1rem;
@@ -1137,14 +997,160 @@ footer {
   #rooms .rooms-left {
     width: 100%;
   }
-  #rooms .section-label {
-    font-size: 2rem;
+  /* === CONTACT US SECTION === */
+  #contact {
+    max-height: none;
+    height: auto;
+    line-height: 1.6;
   }
-  /* ====== GALLERY SECTION ====== */
-  #gallery {
-    margin-top: 50px;
+  #contact .contact-desc {
+    width: 90%;
+    padding: 1rem 0;
   }
-  #gallery .section-label {
-    font-size: 3rem;
+  #contact .container {
+    height: auto;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: start;
+  }
+  #contact .contact_info,
+  #contact .contact-form {
+    width: 100%;
+    max-height: none;
+  }
+  #contact .map-container {
+    margin: 20px 0;
+    width: 100%;
+  }
+  #contact .map-container iframe {
+    width: 100%;
+  }
+  #contact .location-info {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .contact_info ul {
+    gap: 1rem;
+  }
+  /* === CONTACT FORM === */
+  .contact-form,
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    background-color: var(--accent-color);
+    border-radius: 15px;
+    padding: 1rem 0rem;
+    overflow: hidden;
+  }
+  .contact-form input {
+    height: 50px;
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #e3eaf5;
+    border-radius: 5px;
+  }
+  .contact-form #userMESSAGE {
+    margin: 1rem 0;
+    height: 200px;
+    width: 100%;
+    padding: 1rem;
+    resize: none;
+    border: 1px solid #e3eaf5;
+    border-radius: 5px;
+  }
+  .contact-form button {
+    height: 50px;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    transition: 0.3s ease-in-out;
+  }
+  footer {
+    background-color: var(--primary-color);
+    padding: 0rem 0.5rem;
+    text-align: center;
+    border-top: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+  }
+}
+@media (max-width: 1023px) {
+  #desktop-nav {
+    display: none;
+  }
+  .blur.active {
+    position: fixed;
+    z-index: 99;
+    height: 100vh;
+    width: 100%;
+    background-color: #22222270;
+    transition: 0.3s ease;
+  }
+  .off-screen-menu {
+    position: fixed;
+    right: -50%;
+    z-index: 100;
+    background-color: var(--accent-color);
+    height: 100vh;
+    width: 45%;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--fs-700);
+    padding: 2rem 1rem;
+    transition: 0.3s ease;
+  }
+  .off-screen-menu.active {
+    right: 0;
+  }
+  .off-screen-menu .close-btn {
+    color: var(--primary-color);
+    font-size: var(--fs-900);
+    margin-left: 80%;
+    font-weight: 600;
+  }
+  .off-screen-menu ul {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    gap: 2rem;
+  }
+  .off-screen-menu a {
+    color: var(--primary-color);
+  }
+  #mobile-nav {
+    position: absolute;
+    top: 1rem;
+    z-index: 98;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+  #mobile-nav.scrolled {
+    position: fixed;
+    top: 0;
+    background-color: var(--primary-color);
+    box-shadow: var(--shadow-medium);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  #mobile-nav .logo img {
+    height: 4rem;
+  }
+  #mobile-nav .ham-menu i {
+    font-size: var(--fs-800);
+    color: var(--secondary-color);
+  }
+  #mobile-nav.scrolled .ham-menu i {
+    color: var(--light-text);
   }
 }
